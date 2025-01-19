@@ -5,14 +5,14 @@ import { useUIStateStore } from "../../stores/useUIStateStore";
 import "./Game.css";
 
 function Game() {
-  const { inGame, setInGame } = useUIStateStore();
+  const { gameOver, setGameOver, setInGame, updateRankings } =
+    useUIStateStore();
 
   const [hideStartText, setHideStartText] = useState(false);
   const [consoles, setConsoles] = useState([]);
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(1);
   position1;
-  const rankings = new Map(); //MOVE TO STORE
 
   const supabaseInfo = {
     url: import.meta.env.VITE_SUPABASE_URL,
@@ -39,29 +39,28 @@ function Game() {
 
   //I think instead of using a local Map to store the rankings it should be a store variable
   //because everytime the component rerenders it clears the Map values
-  const updateRankings = (e) => {
-    const imgObjectString = e.target.getAttribute("data-img-object");
-    const imgObject = JSON.parse(imgObjectString); // Deserialize the JSON string back to an object
+  const updateRankingsStoreCallback = (e) => {
+    if (!gameOver) {
+      const imgObjectString = e.target.getAttribute("data-img-object");
+      const imgObject = JSON.parse(imgObjectString); // Deserialize the JSON string back to an object
 
-    if (!rankings.has(imgObject.img_name)) {
-      rankings.set(imgObject.img_name, 1);
-    } else {
-      rankings.set(imgObject.img_name, rankings.get(imgObject.img_name) + 1);
+      updateRankings(imgObject);
+
+      console.log(imgObject);
     }
-
-    console.log(imgObject);
-    console.log(rankings);
   };
 
   const updatePositionOfIndices = (winningIndex) => {
     if (winningIndex === position1) {
       if (position1 + 1 > consoles.length - 1) {
         console.log("game over");
+        setGameOver(true);
         return;
       }
 
       if (position2 + 1 > consoles.length - 1) {
         console.log("game over");
+        setGameOver(true);
         return;
       }
 
@@ -77,11 +76,13 @@ function Game() {
     } else {
       if (position1 + 1 > consoles.length - 1) {
         console.log("game over");
+        setGameOver(true);
         return;
       }
 
       if (position2 + 1 > consoles.length - 1) {
         console.log("game over");
+        setGameOver(true);
         return;
       }
 
@@ -104,7 +105,7 @@ function Game() {
           <div id="console1">
             <img
               onClick={(e) => {
-                updateRankings(e);
+                updateRankingsStoreCallback(e);
                 updatePositionOfIndices(position1);
               }}
               data-img-object={JSON.stringify(consoles[position1])}
@@ -121,7 +122,7 @@ function Game() {
           <div id="console2">
             <img
               onClick={(e) => {
-                updateRankings(e);
+                updateRankingsStoreCallback(e);
                 updatePositionOfIndices(position2);
               }}
               data-img-object={JSON.stringify(consoles[position2])}
@@ -161,7 +162,12 @@ function Game() {
     fetchNames();
   }, []);
 
-  return <>{renderGame()}</>;
+  return (
+    <>
+      {renderGame()}
+      {gameOver && <button>Show Results!</button>}
+    </>
+  );
 }
 
 export default Game;
