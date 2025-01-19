@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
+import { useUIStateStore } from "../../stores/useUIStateStore";
 
 import "./Game.css";
 
 function Game() {
+  const { inGame, setInGame } = useUIStateStore();
   const [hideStartText, setHideStartText] = useState(false);
   const [images, setImages] = useState([]);
 
@@ -40,6 +42,8 @@ function Game() {
   //then paste the urls in the table under new column called url
   //that way we do NOT have to rely on someone else's url to render the images and it's still in our own DB storage
   useEffect(() => {
+    setInGame(true);
+
     setTimeout(() => {
       setHideStartText(true);
     }, 1000);
