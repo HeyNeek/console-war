@@ -1,3 +1,7 @@
+# Console War
+
+Fun lil Web game that let's you play a game of choices to find out what your favorite Video Game Console is!
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
