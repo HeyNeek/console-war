@@ -12,7 +12,7 @@ function Game() {
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(1);
   position1;
-  const rankings = new Map();
+  const rankings = new Map(); //MOVE TO STORE
 
   const supabaseInfo = {
     url: import.meta.env.VITE_SUPABASE_URL,
@@ -37,6 +37,8 @@ function Game() {
     return shuffledArray;
   };
 
+  //I think instead of using a local Map to store the rankings it should be a store variable
+  //because everytime the component rerenders it clears the Map values
   const updateRankings = (e) => {
     const imgObjectString = e.target.getAttribute("data-img-object");
     const imgObject = JSON.parse(imgObjectString); // Deserialize the JSON string back to an object
@@ -52,32 +54,24 @@ function Game() {
   };
 
   const updatePositionOfIndices = (winningIndex) => {
-    console.log("consoleslength: ", consoles.length);
-    console.log("consoles: ", consoles);
-    console.log(winningIndex);
-
     if (winningIndex === position1) {
-      if (position1 + 1 > consoles.length - 1 - 1) {
+      if (position1 + 1 > consoles.length - 1) {
         console.log("game over");
         return;
       }
 
-      if (position2 + 1 > consoles.length - 1 - 1) {
+      if (position2 + 1 > consoles.length - 1) {
         console.log("game over");
         return;
       }
 
       if (position2 > position1) {
         setPosition2(position2 + 1);
-        console.log("position1: ", position1);
-        console.log("position2: ", position2);
         return;
       }
 
       if (position2 < position1) {
         setPosition2(position1 + 1);
-        console.log("position1: ", position1);
-        console.log("position2: ", position2);
         return;
       }
     } else {
@@ -93,15 +87,11 @@ function Game() {
 
       if (position1 > position2) {
         setPosition1(position1 + 1);
-        console.log("position1: ", position1);
-        console.log("position2: ", position2);
         return;
       }
 
       if (position1 < position2) {
         setPosition1(position2 + 1);
-        console.log("position1: ", position1);
-        console.log("position2: ", position2);
         return;
       }
     }
@@ -149,7 +139,7 @@ function Game() {
     }
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     console.log("this fires off everytime an option is made");
     setInGame(true);
 
