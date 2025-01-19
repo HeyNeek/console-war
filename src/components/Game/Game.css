@@ -1,0 +1,34 @@
+.console-images {
+  height: 400px;
+  width: 400px;
+  border: 1px solid aliceblue;
+  border-radius: 15px; /* Adjust the radius for more or less rounding */
+}
+
+.console-container {
+  display: flex;
+}
+
+#console1 {
+  padding-right: 100px;
+  padding-top: 100px;
+}
+
+#console2 {
+  padding-top: 100px;
+}
+
+.VS-text {
+  padding-top: 220px;
+  padding-right: 100px;
+}
+
+.console-images:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.console-image-subtitles {
+  font-weight: bold;
+  font-size: large;
+}

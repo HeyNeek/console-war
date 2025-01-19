@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-
 import { createClient } from "@supabase/supabase-js";
+
+import "./Game.css";
 
 function Game() {
   const [hideStartText, setHideStartText] = useState(false);
@@ -15,7 +16,21 @@ function Game() {
 
   const renderGame = () => {
     if (hideStartText) {
-      return <h1>Placeholder</h1>;
+      return (
+        <div className="console-container">
+          <div id="console1">
+            <img className="console-images" src={images[0].img_url} />
+            <p className="console-image-subtitles">{images[0].img_name}</p>
+          </div>
+          <div className="VS-text">
+            <h1>VS.</h1>
+          </div>
+          <div id="console2">
+            <img className="console-images" src={images[1].img_url} />
+            <p className="console-image-subtitles">{images[1].img_name}</p>
+          </div>
+        </div>
+      );
     } else {
       return <h1>START!!!</h1>;
     }
@@ -27,24 +42,7 @@ function Game() {
   useEffect(() => {
     setTimeout(() => {
       setHideStartText(true);
-    }, 1500);
-
-    const fetchImages = async () => {
-      const { data, error } = await supabase.storage
-        .from("console_images")
-        .list("", { limit: 100 });
-
-      if (error) {
-        console.error("Error fetching images", error);
-        return;
-      }
-
-      console.log("data: ", data);
-
-      for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
-      }
-    };
+    }, 1000);
 
     const fetchNames = async () => {
       const { data, error } = await supabase.from("consoles").select("*");
@@ -55,9 +53,9 @@ function Game() {
       }
 
       console.log(data);
+      setImages(data);
     };
 
-    fetchImages();
     fetchNames();
   }, []);
 
@@ -65,21 +63,3 @@ function Game() {
 }
 
 export default Game;
-
-// const imageUrls = data
-//   .map((file) => {
-//     const { publicURL, error: urlError } = supabase.storage
-//       .from("console_images")
-//       .getPublicUrl(file.name);
-
-//     if (urlError) {
-//       console.error("Error getting public URL:", urlError);
-//       return null;
-//     }
-
-//     return publicURL;
-//   })
-//   .filter((url) => url !== null); // Filter out any null URLs
-
-// console.log(imageUrls);
-// setImages(imageUrls);
