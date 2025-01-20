@@ -12,8 +12,8 @@ function Home() {
         <button onClick={() => navigate("/game")}>Start!</button>
       </div>
       <p>
-        This website is a fun game to determine your favorite console ever!
-        Share your results with your friends!
+        This website is a fun preference game that determines your favorite
+        console ever! Share your results with your friends!
       </p>
     </div>
   );

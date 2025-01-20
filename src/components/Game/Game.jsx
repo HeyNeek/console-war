@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import "./Game.css";
 
 function Game() {
-  const { gameOver, setGameOver, setInGame, updateRankings, clearRankings } =
+  const { gameOver, setGameOver, setDisableNavBar, updateRankings } =
     useUIStateStore();
   const navigate = useNavigate();
 
@@ -24,9 +24,7 @@ function Game() {
 
   const exitGame = () => {
     setGameOver(false);
-    setInGame(false);
-    clearRankings();
-    navigate("/");
+    navigate("/results");
   };
 
   const returnShuffledImgObjects = (arr) => {
@@ -150,7 +148,7 @@ function Game() {
 
   useEffect(() => {
     console.log("this fires off everytime an option is made");
-    setInGame(true);
+    setDisableNavBar(true);
 
     setTimeout(() => {
       setHideStartText(true);
