@@ -1,6 +1,8 @@
 import { useUIStateStore } from "../../stores/useUIStateStore";
 import { useNavigate } from "react-router";
 
+import "./Results.css";
+
 function Results() {
   const { rankings, clearRankings, setDisableNavBar } = useUIStateStore();
   const navigate = useNavigate();
@@ -16,8 +18,8 @@ function Results() {
   };
 
   const renderRankings = () => {
-    console.log(rankings);
     let currentHighestValue = 0;
+
     for (const [key, value] of rankings) {
       if (value > currentHighestValue) {
         currentHighestValue = value;
@@ -47,18 +49,23 @@ function Results() {
       }
     }
 
-    console.log(rank1Console);
-    console.log(rank2Console);
-    console.log(rank3Console);
+    //WIP
+    const determineClassName = () => {
+      if (rank2Console && rank3Console) {
+        return "honorable-mentions";
+      }
+
+      return "";
+    };
 
     return (
       <>
         <div>
-          <h2>1: {rank1Console}</h2>
+          <h2 className="favorite-console">1: {rank1Console}</h2>
         </div>
-        <div>
-          <h2>2: {rank2Console}</h2>
-          <h2>3: {rank3Console}</h2>
+        <div className={determineClassName()}>
+          {rank2Console ? <h2>2: {rank2Console}</h2> : null}
+          {rank3Console ? <h2>3: {rank3Console}</h2> : null}
         </div>
       </>
     );
