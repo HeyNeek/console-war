@@ -6,8 +6,13 @@ import { useNavigate } from "react-router";
 import "./Game.css";
 
 function Game() {
-  const { gameOver, setGameOver, setDisableNavBar, updateRankings } =
-    useUIStateStore();
+  const {
+    gameOver,
+    setGameOver,
+    setDisableNavBar,
+    updateRankings,
+    setFavoriteConsole, //use later
+  } = useUIStateStore();
   const navigate = useNavigate();
 
   const [hideStartText, setHideStartText] = useState(false);

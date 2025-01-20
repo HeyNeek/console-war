@@ -4,6 +4,7 @@ export const useUIStateStore = create((set) => ({
   hasRulesMessageBeenDismissed: false,
   disableNavBar: false,
   gameOver: false,
+  favoriteConsole: "",
   rankings: new Map(),
 
   setHasRulesMessageBeenDismissed: (bool) =>
@@ -35,4 +36,8 @@ export const useUIStateStore = create((set) => ({
   },
 
   clearRankings: () => set({ rankings: new Map() }),
+
+  setFavoriteConsole: (console) => set({ favoriteConsole: console }),
+
+  clearFavoriteConsole: () => set({ favoriteConsole: "" }),
 }));
