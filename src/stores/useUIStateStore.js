@@ -33,4 +33,6 @@ export const useUIStateStore = create((set) => ({
       return { rankings: newRankings }; // Update the rankings in the store
     });
   },
+
+  clearRankings: () => set({ rankings: new Map() }),
 }));

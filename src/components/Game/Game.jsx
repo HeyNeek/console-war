@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { useUIStateStore } from "../../stores/useUIStateStore";
+import { useNavigate } from "react-router";
 
 import "./Game.css";
 
 function Game() {
-  const { gameOver, setGameOver, setInGame, updateRankings } =
+  const { gameOver, setGameOver, setInGame, updateRankings, clearRankings } =
     useUIStateStore();
+  const navigate = useNavigate();
 
   const [hideStartText, setHideStartText] = useState(false);
   const [consoles, setConsoles] = useState([]);
   const [position1, setPosition1] = useState(0);
   const [position2, setPosition2] = useState(1);
-  position1;
 
   const supabaseInfo = {
     url: import.meta.env.VITE_SUPABASE_URL,
@@ -20,6 +21,13 @@ function Game() {
   };
 
   const supabase = createClient(supabaseInfo.url, supabaseInfo.key);
+
+  const exitGame = () => {
+    setGameOver(false);
+    setInGame(false);
+    clearRankings();
+    navigate("/");
+  };
 
   const returnShuffledImgObjects = (arr) => {
     // Create a copy of the original array to avoid modifying the original array
@@ -165,7 +173,12 @@ function Game() {
   return (
     <>
       {renderGame()}
-      {gameOver && <button>Show Results!</button>}
+      {gameOver && (
+        <div>
+          <h2>Game Over!</h2>
+          <button onClick={exitGame}>Show Results!</button>
+        </div>
+      )}
     </>
   );
 }
